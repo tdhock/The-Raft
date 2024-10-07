@@ -508,7 +508,13 @@ window.Quarto = {
 600: virginica  Petal.Width   1.8  Petal  Width</code></pre>
 </div>
 </div>
-<p>The code above first converts to <code>data.table</code>, then uses the square brackets to assign new columns. Inside the square brackets, there is a walrus assignment: * <code>,</code> comma because there is no first argument (no subset, use all rows) * <code>c("part","dim")</code> is the left side of the walrus <code>:=</code> assignment, which specifies the new column names to create. * on the right side of the walrus, the result of <code>tstrsplit(part_dim,   split="[.]")</code> is used as the value to assign to the new columns (<code>part_dim</code> is the column to split, and <code>"[.]"</code> is the regex to use for splitting). * Since <code>tstrsplit</code> returns a list of two character vectors, there will be two new columns.</p>
+<p>The code above first converts to <code>data.table</code>, then uses the square brackets to assign new columns. Inside the square brackets, there is a walrus assignment:</p>
+<ul>
+<li><code>,</code> comma because there is no first argument (no subset, use all rows)</li>
+<li><code>c("part","dim")</code> is the left side of the walrus <code>:=</code> assignment, which specifies the new column names to create.</li>
+<li>on the right side of the walrus, the result of <code>tstrsplit(part_dim,   split="[.]")</code> is used as the value to assign to the new columns (<code>part_dim</code> is the column to split, and <code>"[.]"</code> is the regex to use for splitting).</li>
+<li>Since <code>tstrsplit</code> returns a list of two character vectors, there will be two new columns.</li>
+</ul>
 <p>Finally after the walrus square brackets, we use another empty square brackets <code>[]</code> to enable printing (there is no printing immediately after assigning new columns using the walrus operator).</p>
 <p>Another way of doing that, by specifying a regex, would be via <code>nc::capture_first_df</code> (recently given the <code>data.table</code> <a href="https://rdatatable-community.github.io/The-Raft/posts/2024-08-01-seal_of_approval-nc/">Seal of Approval</a>), as in the code below:</p>
 <div class="cell">
@@ -532,7 +538,12 @@ window.Quarto = {
 600: virginica  Petal.Width   1.8  Petal  Width</code></pre>
 </div>
 </div>
-<p>The code above specifies: * <code>capture_first_df</code>, a function for applying capturing regex to columns of a data frame; * <code>iris.long.duckdb</code> is the input data frame, in which there is the <code>part_dim</code> column to split; * <code>part=".*", "[.]", dim=".*"</code> makes the capturing regex; R argument names are used to define the new column names, based on the text captured in the corresponding regex (<code>".*"</code> means zero or more non-newline characters).</p>
+<p>The code above specifies:</p>
+<ul>
+<li><code>capture_first_df</code>, a function for applying capturing regex to columns of a data frame;</li>
+<li><code>iris.long.duckdb</code> is the input data frame, in which there is the <code>part_dim</code> column to split;</li>
+<li><code>part=".*", "[.]", dim=".*"</code> makes the capturing regex; R argument names are used to define the new column names, based on the text captured in the corresponding regex (<code>".*"</code> means zero or more non-newline characters).</li>
+</ul>
 <p>Both results above are data tables with extra cols <code>part</code> and <code>dim</code>. For visualization, these data tables could be used with either <code>facet_grid</code> or <code>facet_wrap</code>, similar to the examples above.</p>
 </section>
 <section id="reshape-into-multiple-columns" class="level2">
@@ -971,18 +982,18 @@ values.</code></pre>
 <span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY Species,part,dim'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Species  part    dim     .
-1  versicolor Petal Length 4.260
-2  versicolor Petal  Width 1.326
-3      setosa Sepal Length 5.006
-4      setosa Sepal  Width 3.428
-5   virginica Petal Length 5.552
-6   virginica Petal  Width 2.026
-7  versicolor Sepal Length 5.936
-8   virginica Sepal Length 6.588
-9  versicolor Sepal  Width 2.770
-10  virginica Sepal  Width 2.974
-11     setosa Petal Length 1.462
-12     setosa Petal  Width 0.246</code></pre>
+1  versicolor Sepal Length 5.936
+2   virginica Sepal Length 6.588
+3  versicolor Sepal  Width 2.770
+4   virginica Sepal  Width 2.974
+5      setosa Petal Length 1.462
+6      setosa Petal  Width 0.246
+7  versicolor Petal Length 4.260
+8  versicolor Petal  Width 1.326
+9      setosa Sepal Length 5.006
+10     setosa Sepal  Width 3.428
+11  virginica Petal Length 5.552
+12  virginica Petal  Width 2.026</code></pre>
 </div>
 </div>
 <p>The result above is consistent with previous results. Finally, we can do multiple aggregations via the code below, which requires enumerating each combination of aggregation function and input column to aggregate.</p>
@@ -2174,7 +2185,7 @@ loaded via a namespace (and not attached):
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="46" data-listing-file-modified-sort="1728306591381">
+<div class="quarto-post image-right" data-index="46" data-listing-file-modified-sort="1728306910706">
 <div class="thumbnail">
 <p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-pivot-1.png" class="no-external"></a></p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-pivot-1.png" class="no-external">
 </a><p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-pivot-1.png" class="no-external"></a></p>
@@ -2195,7 +2206,7 @@ loaded via a namespace (and not attached):
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="47" data-listing-file-modified-sort="1728306609989">
+<div class="quarto-post image-right" data-index="47" data-listing-file-modified-sort="1728306928807">
 <div class="thumbnail">
 <p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-pivot-copy-1.png" class="no-external"></a></p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-pivot-copy-1.png" class="no-external">
 </a><p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-pivot-copy-1.png" class="no-external"></a></p>
@@ -2216,7 +2227,7 @@ loaded via a namespace (and not attached):
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="48" data-listing-file-modified-sort="1728306536320">
+<div class="quarto-post image-right" data-index="48" data-listing-file-modified-sort="1728306857460">
 <div class="thumbnail">
 <p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-unpivot-1.png" class="no-external"></a></p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-unpivot-1.png" class="no-external">
 </a><p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-unpivot-1.png" class="no-external"></a></p>
@@ -2237,7 +2248,7 @@ loaded via a namespace (and not attached):
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="49" data-listing-file-modified-sort="1728306559558">
+<div class="quarto-post image-right" data-index="49" data-listing-file-modified-sort="1728306880607">
 <div class="thumbnail">
 <p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-unpivot-copy-1.png" class="no-external"></a></p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-unpivot-copy-1.png" class="no-external">
 </a><p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\atime-unpivot-copy-1.png" class="no-external"></a></p>
@@ -2258,7 +2269,7 @@ loaded via a namespace (and not attached):
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="50" data-listing-file-modified-sort="1728306518523">
+<div class="quarto-post image-right" data-index="50" data-listing-file-modified-sort="1728306839620">
 <div class="thumbnail">
 <p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\dcast-hist-1.png" class="no-external"></a></p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\dcast-hist-1.png" class="no-external">
 </a><p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\dcast-hist-1.png" class="no-external"></a></p>
@@ -2279,7 +2290,7 @@ loaded via a namespace (and not attached):
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="51" data-listing-file-modified-sort="1728306520019">
+<div class="quarto-post image-right" data-index="51" data-listing-file-modified-sort="1728306841176">
 <div class="thumbnail">
 <p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\iris-scatter-1.png" class="no-external"></a></p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\iris-scatter-1.png" class="no-external">
 </a><p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\iris-scatter-1.png" class="no-external"></a></p>
@@ -2300,7 +2311,7 @@ loaded via a namespace (and not attached):
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="52" data-listing-file-modified-sort="1728306519171">
+<div class="quarto-post image-right" data-index="52" data-listing-file-modified-sort="1728306840296">
 <div class="thumbnail">
 <p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\polars-hist-1.png" class="no-external"></a></p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\polars-hist-1.png" class="no-external">
 </a><p><a href="../../posts\2024-09-28-duckdb_polars_reshape-toby_hocking\index_files\figure-html\polars-hist-1.png" class="no-external"></a></p>
